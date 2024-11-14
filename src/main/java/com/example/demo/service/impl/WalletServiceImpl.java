@@ -36,13 +36,13 @@ public class WalletServiceImpl implements WalletService {
             case WITHDRAW -> {
                 if (validateSufficientFunds(wallet, changeBalanceRequest.amount())) {
                     wallet.setBalance(wallet.getBalance().subtract(changeBalanceRequest.amount()));
-                }
-                else {
+                } else {
                     throw new NotEnoughFundsException("Wallet has not enough funds for the operation");
                 }
             }
 
-            default -> throw new ResourceNotFoundException(String.format("Operation type %s was not found", changeBalanceRequest.operationType().name()));
+            default ->
+                    throw new ResourceNotFoundException(String.format("Operation type %s was not found", changeBalanceRequest.operationType().name()));
         }
 
         walletRepository.save(wallet);
