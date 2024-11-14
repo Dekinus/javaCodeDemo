@@ -1,0 +1,26 @@
+version: '3.1'
+
+services:
+  app:
+    image: 'demo:latest'
+    build:
+      context: .
+    container_name: app
+    ports:
+      - 8080:8080
+    depends_on:
+      - db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/javacode
+      - SPRING_DATASOURCE_USERNAME=user
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=validate
+    env_file:
+      - secrets.env
+
+  db:
+    image: 'postgres:14.5-alpine'
+    container_name: db
+    environment:
+      - POSTGRES_DB=javacode
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
